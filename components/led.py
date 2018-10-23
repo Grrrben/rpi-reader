@@ -14,9 +14,7 @@ class Led():
         # Set pins' channels with dictionary
         # self.pins = {'Red': 11, 'Green': 12, 'Blue': 13}
         self.pins = {'Red': red, 'Green': green, 'Blue': blue}
-        self.red, self.green, self.blue = "", "", ""
 
-    def setup(self):
         # Set the GPIO modes to BCM Numbering
         # GPIO.setmode(GPIO.BCM)
         GPIO.setmode(GPIO.BOARD)
@@ -27,9 +25,9 @@ class Led():
 
         # Setting the led pins as a PWM channel
         self.red = GPIO.PWM(self.pins['Red'], 2000)
-        self.green= GPIO.PWM(self.pins['Green'], 2000)
-        self.blue= GPIO.PWM(self.pins['Blue'], 2000)
-        
+        self.green = GPIO.PWM(self.pins['Green'], 2000)
+        self.blue = GPIO.PWM(self.pins['Blue'], 2000)
+
         # Setting the led pins as a PWM channel
         self.red.start(0)
         self.green.start(0)
