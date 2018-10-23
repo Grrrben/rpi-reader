@@ -6,7 +6,6 @@ import json
 
 
 class ApiRequest():
-
     def __init__(self, config, logger):
         self.token = ""
         self.expires_at = datetime.now(timezone.utc)
@@ -14,8 +13,6 @@ class ApiRequest():
         self.logger = logger
 
     def get_token(self):
-
-        print("getting token")
 
         if self.token != "" and self.expires_at > datetime.now(timezone.utc):
             # no need to renew
@@ -35,7 +32,7 @@ class ApiRequest():
             "Accept": "application/json"
         }
         url = "{}{}".format(self.config['default']['api_url'], self.config['default']['endpoint_token'])
-        req = request.Request(url, data = params, headers=headers)
+        req = request.Request(url, data=params, headers=headers)
         resp = request.urlopen(req)
         data = json.loads(resp.read().decode('utf-8'))
 
@@ -45,15 +42,16 @@ class ApiRequest():
 
         return self.token
 
-
     def get_authorized_access_request(self, key: str) -> bool:
+
+        device_id = self.config['default']['reader_id']
 
         headers = {
             "Authorization": "Bearer {}".format(self.get_token())
         }
 
         path = self.config['default']['endpoint_access'].format(
-            device_id=self.config['default']['reader_id'], identifier=key)
+            device_id=device_id, identifier=key)
 
         url = "{}{}".format(self.config['default']['api_url'], path)
 
@@ -67,11 +65,14 @@ class ApiRequest():
 
             if "error" in data:
                 self.logger.error(data["error"])
+                self.logger.info("Access denied for key {} on device {}".format(key, device_id))
                 return False
 
             if "success" in data:
                 success = data["success"]
+                self.logger.info("Access granted for key {} on device {}".format(key, device_id))
                 return success
+
         except HTTPError as e:
-            self.logger.error(str(e))
+            self.logger.error("Request to {} gave exception {}".format(url, str(e)))
             return False

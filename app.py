@@ -2,6 +2,7 @@ import logging
 
 from cache.cache import Cache
 from components.keypad import Keypad
+from components.led import Led
 from request.req import ApiRequest
 
 from pad4pi import rpi_gpio
@@ -31,6 +32,9 @@ class App():
         waiting for a signal
         """
         print("I'm listening")
+
+        led = Led()
+        led.blink_blue()
 
         if self.reader_type == "KEYPAD":
 

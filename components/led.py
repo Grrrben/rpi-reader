@@ -2,13 +2,19 @@ import RPi.GPIO as GPIO
 import time
 
 class Led():
+    """
+    Class for a RGB led
+    """
 
     # Set up a color table in Hexadecimal
     COLOR = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
-    # Set pins' channels with dictionary
-    pins = {'Red':11, 'Green':12, 'Blue':13}
 
-    red, green, blue = "", "", ""
+
+    def __init__(self, red = 11, green = 12, blue = 13):
+        # Set pins' channels with dictionary
+        # self.pins = {'Red': 11, 'Green': 12, 'Blue': 13}
+        self.pins = {'Red': red, 'Green': green, 'Blue': blue}
+        self.red, self.green, self.blue = "", "", ""
 
     def setup(self):
         # Set the GPIO modes to BCM Numbering
@@ -28,15 +34,6 @@ class Led():
         self.red.start(0)
         self.green.start(0)
         self.blue.start(0)
-
-    def destroy():
-        # stopping the PWM channels
-        self.red.stop()
-        self.green.stop()
-        self.blue.stop()
-
-        GPIO.output(pins, GPIO.HIGH)
-        GPIO.cleanup()
 
     def blink_blue(self, duration = 0.5):
         """ wrapper for a blue blink() """
@@ -59,3 +56,11 @@ class Led():
         self.green.ChangeDutyCycle(0)
         self.blue.ChangeDutyCycle(0)
 
+    def destroy(self):
+        # stopping the PWM channels
+        self.red.stop()
+        self.green.stop()
+        self.blue.stop()
+
+        GPIO.output(self.pins, GPIO.HIGH)
+        GPIO.cleanup()

@@ -40,3 +40,5 @@ class Keypad:
         key = "".join(self.sequence)
         success = self.api.get_authorized_access_request(key)
 
+        print(success)
+
