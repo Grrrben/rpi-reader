@@ -37,7 +37,7 @@ class ApiRequest():
         url = "{}{}".format(self.config['default']['api_url'], self.config['default']['endpoint_token'])
         req = request.Request(url, data = params, headers=headers)
         resp = request.urlopen(req)
-        data = json.loads(resp.read())
+        data = json.loads(resp.content.decode('utf-8'))
 
         # setting the tokens in
         self.token = data["token"]
@@ -57,16 +57,17 @@ class ApiRequest():
 
         print(url)
 
-        request = Request(url, headers=headers)
-        jsonRequest = urlopen(request).read().decode()
+        req = request.Request(url, headers=headers)
+        resp = request.urlopen(req)
+        data = json.loads(resp.content.decode('utf-8'))
 
-        print(jsonRequest)
-        print(type(jsonRequest))
+        print(data)
+        print(type(data))
 
-        if "error" in jsonRequest:
-            print(jsonRequest["error"])
+        if "error" in data:
+            print(data["error"])
             return False
 
-        if "success" in jsonRequest:
-            success = jsonRequest["success"]
+        if "success" in data:
+            success = data["success"]
             return success
