@@ -60,8 +60,11 @@ class ApiRequest():
             resp = request.urlopen(req)
             data = json.loads(resp.read().decode('utf-8'))
 
-            print(data)
-            print(type(data))
+            # data e.g.
+            # {'accessrule': {'smartloxs_id': None, 'id': 5628}, 'success': True,
+            #  'device': {'stationId': None, 'locationId': 48, 'id': 607, 'address': None, 'port': None,
+            #             'name': 'gerben test', 'firmware': None, 'deviceType': None, 'active': True},
+            #  'registration': None}
 
             if "error" in data:
                 self.logger.error(data["error"])
