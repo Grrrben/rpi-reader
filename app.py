@@ -17,7 +17,7 @@ class App():
 
         self.cache = None
 
-        self.reader_type = self.config.get('reader_type')
+        self.reader_type = config['default']['reader_type']
         self.reader = None
 
         self.api = ApiRequest(self.config)
@@ -30,6 +30,7 @@ class App():
         """
         waiting for a signal
         """
+        print("I'm listening")
 
         if self.reader_type == "KEYPAD":
 
