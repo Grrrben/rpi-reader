@@ -1,4 +1,5 @@
 from request.req import ApiRequest
+import logging
 
 class Keypad:
 
@@ -9,6 +10,7 @@ class Keypad:
     def __init__(self):
         # a sequence is a list of numbers that make a PIN
         self.sequence = []
+        self.logger = logging.getLogger(__name__)
 
 
     def input(self, key):
@@ -16,6 +18,7 @@ class Keypad:
             # this is the enter
             # thus; handle the PIN and clear the sequence afterwards
             print(self.sequence)
+            self.logger.debug("Pin entered {}".format(self.sequence))
             self.handle()
             self.clear()
         elif key == Keypad.BTN_CLEAR:

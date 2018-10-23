@@ -1,9 +1,7 @@
-from http import client
-import json
-from datetime import datetime, timezone
-import dateutil.parser
 from urllib import request, parse
 from urllib.error import HTTPError
+from datetime import datetime, timezone
+import dateutil.parser
 import json
 
 
