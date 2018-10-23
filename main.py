@@ -15,7 +15,7 @@ def init():
     app = App(config)
 
     now = datetime.now()
-    logfile = "logs/smartapi_{0}_{1}.log".format(now.month, now.year)
+    logfile = "log/smartapi_{0}_{1}.log".format(now.month, now.year)
     file_handler = RotatingFileHandler(logfile, maxBytes=10485760, backupCount=10)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))

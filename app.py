@@ -16,7 +16,6 @@ class App():
         self.logger.setLevel(logging.DEBUG)
 
         self.cache = None
-        self.logger = None
 
         self.reader_type = config['default']['reader_type']
         self.reader = None
