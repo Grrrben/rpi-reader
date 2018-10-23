@@ -1,9 +1,9 @@
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 from http import client
 import json
 from datetime import datetime
 import dateutil.parser
+from urllib import request, parse
+import json
 
 
 class ApiRequest():
@@ -25,20 +25,19 @@ class ApiRequest():
         password = self.config['default']['password']
 
         # login with Runremote rights
-        params = urlencode({
+        params = parse.urlencode({
             'email': email,
             'password': password
-        })
+        }).encode()
+
         headers = {
             "Content-type": "application/x-www-form-urlencoded",
             "Accept": "application/json"
         }
-        conn = client.HTTPConnection(self.config['default']['api_url'])
-        conn.request("POST", self.config['default']['endpoint_token'], params, headers)
-
-        # fetch token from response
-        response = conn.getresponse()
-        data = json.loads(response.read())
+        url = "{}{}".format(self.config['default']['api_url'], self.config['default']['endpoint_token'])
+        req = request.Request(url, data = params, headers=headers)
+        resp = request.urlopen(req)
+        data = json.loads(resp.read())
 
         # setting the tokens in
         self.token = data["token"]
