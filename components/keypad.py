@@ -29,7 +29,7 @@ class Keypad:
         """
         self.sequence = []
 
-    def setApi(self, api: ApiRequest):
+    def set_api(self, api: ApiRequest):
 
         self.api = api
 

@@ -38,6 +38,7 @@ class App():
             self.reader = factory.create_4_by_3_keypad()
 
             kp = Keypad()
+            kp.set_api(self.api)
 
             # printKey will be called each time a keypad button is pressed
             self.reader.registerKeyPressHandler(kp.input)
