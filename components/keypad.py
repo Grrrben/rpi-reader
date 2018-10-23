@@ -7,17 +7,17 @@ class Keypad:
 
     BTN_CLEAR = "*"  # Clear
 
-    def __init__(self):
+    def __init__(self, logger):
         # a sequence is a list of numbers that make a PIN
         self.sequence = []
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger
+        self.api = None
 
 
     def input(self, key):
         if key == Keypad.BTN_DASH:
             # this is the enter
             # thus; handle the PIN and clear the sequence afterwards
-            print(self.sequence)
             self.logger.debug("Pin entered {}".format(self.sequence))
             self.handle()
             self.clear()
@@ -33,7 +33,6 @@ class Keypad:
         self.sequence = []
 
     def set_api(self, api: ApiRequest):
-
         self.api = api
 
     def handle(self):

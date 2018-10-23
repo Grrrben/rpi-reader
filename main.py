@@ -1,28 +1,29 @@
 import configparser
 import logging
 from logging.handlers import RotatingFileHandler
+from datetime import datetime
 
 from cache.cache import Cache, SimpleCache
 from app import App
-
 
 def init():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    logging.basicConfig(
-        format='%(levelname)s %(asctime)s: %(message)s',
-        level=logging.DEBUG)
-
-    logger = logging.getLogger(__name__)
-    handler = RotatingFileHandler('log/rpi_reader_v3.log', maxBytes=2000, backupCount=10)
-    logger.addHandler(handler)
-
-    logger.debug("DEBUG in main.init")
-
     check(config)
 
     app = App(config)
+
+    now = datetime.now()
+    logfile = "logs/smartapi_{0}_{1}.log".format(now.month, now.year)
+    file_handler = RotatingFileHandler(logfile, maxBytes=10485760, backupCount=10)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+
+    app.logger.addHandler(file_handler)
+    app.logger.setLevel(logging.INFO)
+
+    app.logger.debug("DEBUG in main.init")
 
     if config['default']['use_cache']:
         c = SimpleCache()

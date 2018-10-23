@@ -12,15 +12,16 @@ class App():
 
     def __init__(self, config):
         self.config = config
-        logger = logging.getLogger(__name__)
-        logger.setLevel(logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.DEBUG)
 
         self.cache = None
+        self.logger = None
 
         self.reader_type = config['default']['reader_type']
         self.reader = None
 
-        self.api = ApiRequest(self.config)
+        self.api = ApiRequest(self.config, self.logger)
 
 
     def set_cache(self, cache: Cache):
@@ -37,7 +38,7 @@ class App():
             factory = rpi_gpio.KeypadFactory()
             self.reader = factory.create_4_by_3_keypad()
 
-            kp = Keypad()
+            kp = Keypad(self.logger)
             kp.set_api(self.api)
 
             # printKey will be called each time a keypad button is pressed
@@ -50,19 +51,7 @@ class App():
                 self.reader.cleanup()
 
         else:
-            print("unknown reader")
-
-
-
-    def handle(self):
-        pass
-
-    def request(self):
-        """
-        Try and access
-        """
-
-        pass
+            self.logger.error("unknown reader")
 
     def get_cached_access(self, id: int):
         """

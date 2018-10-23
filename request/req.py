@@ -7,10 +7,11 @@ import json
 
 class ApiRequest():
 
-    def __init__(self, config):
+    def __init__(self, config, logger):
         self.token = ""
         self.expires_at = datetime.now(timezone.utc)
         self.config = config
+        self.logger = logger
 
     def get_token(self):
 
@@ -65,13 +66,12 @@ class ApiRequest():
             print(type(data))
 
             if "error" in data:
-                print(data["error"])
+                self.logger.error(data["error"])
                 return False
 
             if "success" in data:
                 success = data["success"]
                 return success
         except HTTPError as e:
-            # todo log
-            print(str(e))
+            self.logger.error(str(e))
             return False
