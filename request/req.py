@@ -15,6 +15,8 @@ class ApiRequest():
 
     def get_token(self):
 
+        print("getting token")
+
         if self.token != "" and self.expires_at > datetime.now():
             # no need to renew
             return self.token
@@ -45,14 +47,22 @@ class ApiRequest():
         return self.token
 
 
-    def get_authorized_access_request(self, url: str) -> bool:
+    def get_authorized_access_request(self, key: str) -> bool:
 
         headers = {
             "Authorization": "Bearer %s".format(self.get_token())
         }
 
+        url = self.config['default']['endpoint_access'].format(
+            device_id=self.config['default']['reader_id'], identifier=key)
+
+        print(url)
+
         request = Request(url, headers=headers)
         jsonRequest = urlopen(request).read().decode()
+
+        print(jsonRequest)
+        print(type(jsonRequest))
 
         if "error" in jsonRequest:
             print(jsonRequest["error"])
@@ -61,9 +71,3 @@ class ApiRequest():
         if "success" in jsonRequest:
             success = jsonRequest["success"]
             return success
-
-
-
-        print(jsonRequest)
-        print(type(jsonRequest))
-
