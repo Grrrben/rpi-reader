@@ -6,6 +6,8 @@ from datetime import datetime
 from cache.cache import Cache, SimpleCache
 from app import App
 
+app = None
+
 def init():
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -49,7 +51,7 @@ def check(config):
             raise Exception("unknown reader_type {}".format(config['default']['reader_type']))
     except KeyError as e:
         # log
-        msg = "missing key in config{}".format(str(e))
+        app.logger.error("missing key in config{}".format(str(e)))
         raise
 
 

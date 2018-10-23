@@ -44,6 +44,9 @@ class App():
             kp = Keypad(self.logger)
             kp.set_api(self.api)
 
+            kp.register_positive_handler(led.blink_green)
+            kp.register_negative_handler(led.blink_red)
+
             # printKey will be called each time a keypad button is pressed
             self.reader.registerKeyPressHandler(kp.input)
 

@@ -1,5 +1,5 @@
 from request.req import ApiRequest
-import logging
+from components.led import Led
 
 class Keypad:
 
@@ -12,6 +12,9 @@ class Keypad:
         self.sequence = []
         self.logger = logger
         self.api = None
+
+        self._positive_handlers = []
+        self._negative_handlers = []
 
 
     def input(self, key):
@@ -35,10 +38,28 @@ class Keypad:
     def set_api(self, api: ApiRequest):
         self.api = api
 
+    def register_positive_handler(self, handler):
+        self._positive_handlers.append(handler)
+    def unregister_positive_handler(self, handler):
+        self._positive_handlers.remove(handler)
+
+    def register_negative_handler(self, handler):
+        self._negative_handlers.append(handler)
+    def unregister_negative_handler(self, handler):
+        self._negative_handlers.remove(handler)
+
+
     def handle(self):
 
         key = "".join(self.sequence)
         success = self.api.get_authorized_access_request(key)
+
+        if success:
+            for handler in self._positive_handlers:
+                handler()
+        else:
+            for handler in self._negative_handlers:
+                handler()
 
         print(success)
 
