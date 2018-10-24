@@ -71,8 +71,6 @@ class App():
 
             rfid.register_positive_handler(led.blink_green)
             rfid.register_negative_handler(led.blink_red)
-            rfid.register_negative_handler(led.blink_green)
-            rfid.register_negative_handler(led.blink_blue)
 
             rfid.wait()
 

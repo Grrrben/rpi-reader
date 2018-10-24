@@ -36,7 +36,6 @@ def init():
 
     app.wait()
 
-
 def check(config):
     """
     Todo...
@@ -65,7 +64,6 @@ if __name__ == "__main__":
     try:
         init()
 
-    # When 'Ctrl+C' is pressed, the child program
-    # destroy() will be  executed.
+    # Cleaning GPIO up when 'Ctrl+C' is pressed
     except KeyboardInterrupt:
         destroy()
