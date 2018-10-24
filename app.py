@@ -2,6 +2,7 @@ import logging
 
 from cache.cache import Cache
 from components.keypad import Keypad
+from components.rfid import Rfid
 from components.led import Led
 from request.req import ApiRequest
 
@@ -63,6 +64,15 @@ class App():
                     time.sleep(0.1)
             except:
                 self.reader.cleanup()
+        elif self.reader_type == "RFID":
+
+            rfid = Rfid(self.logger)
+            rfid.set_api(self.api)
+
+            rfid.register_positive_handler(led.blink_green)
+            rfid.register_negative_handler(led.blink_red)
+
+            rfid.wait()
 
         else:
             self.logger.error("unknown reader")
