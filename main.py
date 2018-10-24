@@ -6,6 +6,9 @@ from datetime import datetime
 from cache.cache import Cache, SimpleCache
 from app import App
 
+import RPi.GPIO as GPIO
+
+
 app = None
 
 def init():
@@ -54,6 +57,15 @@ def check(config):
         app.logger.error("missing key in config{}".format(str(e)))
         raise
 
+def destroy():
+    """ ending the program gracefully """
+    GPIO.cleanup()
 
 if __name__ == "__main__":
-    init()
+    try:
+        init()
+
+    # When 'Ctrl+C' is pressed, the child program
+    # destroy() will be  executed.
+    except KeyboardInterrupt:
+        destroy()
