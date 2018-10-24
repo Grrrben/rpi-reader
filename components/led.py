@@ -9,9 +9,6 @@ class Led:
     See https://pinout.xyz/ for a reference.
     """
 
-    # Set up a color table in Hexadecimal
-    COLOR = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
-
     def __init__(self, red = 19, green = 16, blue = 26):
         # Set pins' channels with dictionary, using the BCM numbering as
         # other components (pad4pi) use this mode by default

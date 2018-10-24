@@ -1,0 +1,18 @@
+[default]
+reader_type = KEYPAD |  RFID
+reader_id = 123
+
+username = str
+password = str
+
+# base url of the api
+api_url = http(s)://domain.ext
+
+# endpoint to fetch a JWT
+endpoint_token = /path/to/obtain/jwt/auth/token
+# endpoint to grand or deny access
+# please be aware that a RFID reader has a different endpoint than an keypad/pin
+# use device_id and identifier as named vars, as these are used in the sting.format() call.
+endpoint_access = /path/to/access/api?slxDeviceId={device_id}&pin|tag={identifier}
+
+use_cache = 0
