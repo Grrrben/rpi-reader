@@ -52,19 +52,14 @@ class Rfid:
             self.rdr.wait_for_tag()
             (error, tag_type) = self.rdr.request()
             if not error:
-                print("Tag detected")
                 (error, uid) = self.rdr.anticoll()
                 if not error:
-                    print("UID: " + str(uid))
-
                     # for MIFARE with a single UID the UID consists of the first 4 bites.
                     # The fifth one is the Block Check Character, it is calculated as exclusive-or over the 4 previous bytes.
                     hex_uid = uid[0:4]
                     hex_uid.reverse()
 
                     chip_number = hex_uid[0] << 24 | hex_uid[1] << 16 | hex_uid[2] << 8 | hex_uid[3]
-
-                    print("Card read; chip_number {}".format(chip_number))
                     success = self.api.get_authorized_access_request(chip_number)
 
                     if success:
@@ -73,6 +68,8 @@ class Rfid:
                     else:
                         for handler in self._negative_handlers:
                             handler()
+
+                    print("Access {} for card with chip_number {}".format(success, chip_number))
 
                     print(success)
 
