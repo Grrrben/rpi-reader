@@ -10,7 +10,6 @@ import time
 
 
 class App():
-
     def __init__(self, config):
         self.config = config
         self.logger = logging.getLogger(__name__)
@@ -22,7 +21,6 @@ class App():
         self.reader = None
 
         self.api = ApiRequest(self.config, self.logger)
-
 
     def set_cache(self, cache: Cache):
         self.cache = cache
@@ -39,7 +37,17 @@ class App():
         if self.reader_type == "KEYPAD":
 
             factory = rpi_gpio.KeypadFactory()
-            self.reader = factory.create_4_by_3_keypad()
+
+            keypad = [
+                [1, 2, 3],
+                [4, 5, 6],
+                [7, 8, 9],
+                ["*", 0, "#"]
+            ]
+            row_pins = [4, 14, 15, 17]  # BCM numbering
+            col_pins = [18, 27, 22]  # BCM numbering
+
+            self.reader = factory.create_keypad(keypad=keypad, row_pins=row_pins, col_pins=col_pins)
 
             kp = Keypad(self.logger)
             kp.set_api(self.api)

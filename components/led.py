@@ -1,22 +1,25 @@
 import RPi.GPIO as GPIO
 import time
 
-class Led():
+class Led:
     """
     Class for a RGB led
+
+    __init__ can be used to set pins for the RGB colours. Use the BCM numbering of the GPIO pins.
+    See https://pinout.xyz/ for a reference.
     """
 
     # Set up a color table in Hexadecimal
     COLOR = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
 
-
     def __init__(self, red = 19, green = 16, blue = 26):
-        # Set pins' channels with dictionary
-        # self.pins = {'Red': 11, 'Green': 12, 'Blue': 13}
-        self.pins = {'Red': red, 'Green': green, 'Blue': blue}
+        # Set pins' channels with dictionary, using the BCM numbering as
+        # other components (pad4pi) use this mode by default
+        self.pins = {'R': red, 'G': green, 'B': blue}
 
         # Set the GPIO modes to BCM Numbering
         # GPIO.setmode(GPIO.BCM)
+        # GPIO.setmode(GPIO.BOARD)
         GPIO.setmode(GPIO.BCM)
 
         for i in self.pins:
@@ -24,9 +27,9 @@ class Led():
             GPIO.setup(self.pins[i], GPIO.OUT, initial=GPIO.HIGH)
 
         # Setting the led pins as a PWM channel
-        self.red = GPIO.PWM(self.pins['Red'], 2000)
-        self.green = GPIO.PWM(self.pins['Green'], 2000)
-        self.blue = GPIO.PWM(self.pins['Blue'], 2000)
+        self.red = GPIO.PWM(self.pins['R'], 2000)
+        self.green = GPIO.PWM(self.pins['G'], 2000)
+        self.blue = GPIO.PWM(self.pins['B'], 2000)
 
         # Setting the led pins as a PWM channel
         self.red.start(0)
