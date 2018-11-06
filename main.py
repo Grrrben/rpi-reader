@@ -15,8 +15,6 @@ def init():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    check(config)
-
     app = App(config)
 
     now = datetime.now()
@@ -35,26 +33,6 @@ def init():
         app.set_cache(c)
 
     app.wait()
-
-def check(config):
-    """
-    Todo...
-
-    Setup of base values and a test if everything is ready to start the reading functionality.
-
-    Test
-    - if required config settings are set
-    - if a connection to the server can be made and a token can be acquired
-
-    """
-
-    try:
-        if config['default']['reader_type'] not in ("KEYPAD", 'RFID'):
-            raise Exception("unknown reader_type {}".format(config['default']['reader_type']))
-    except KeyError as e:
-        # log
-        app.logger.error("missing key in config{}".format(str(e)))
-        raise
 
 def destroy():
     """ ending the program gracefully """
