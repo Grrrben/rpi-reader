@@ -1,13 +1,12 @@
 import configparser
 import logging
-from logging.handlers import RotatingFileHandler
 from datetime import datetime
-
-from cache.cache import Cache, SimpleCache
-from app import App
+from logging.handlers import RotatingFileHandler
 
 import RPi.GPIO as GPIO
 
+from app import App
+from app.cache import SimpleCache
 
 app = None
 

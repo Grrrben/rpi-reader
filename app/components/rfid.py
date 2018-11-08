@@ -1,6 +1,7 @@
-from request.req import ApiRequest
-from pirc522 import RFID
 import RPi.GPIO as GPIO
+from pirc522 import RFID
+
+from app.request import ApiRequest
 
 
 class Rfid:
@@ -70,8 +71,6 @@ class Rfid:
                             handler()
 
                     print("Access {} for card with chip_number {}".format(success, chip_number))
-
-                    print(success)
 
                     # Select Tag is required before Auth
                     # if not self.rdr.select_tag(uid):

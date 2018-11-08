@@ -32,6 +32,8 @@ class ApiRequest():
             "Accept": "application/json"
         }
         url = "{}{}".format(self.config['default']['api_url'], self.config['default']['endpoint_token'])
+
+
         req = request.Request(url, data=params, headers=headers)
         resp = request.urlopen(req)
         data = json.loads(resp.read().decode('utf-8'))
