@@ -5,16 +5,13 @@ from logging.handlers import RotatingFileHandler
 
 import RPi.GPIO as GPIO
 
-from app import App
-from app.cache import SimpleCache
-
-app = None
+import app
 
 def init():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
-    app = App(config)
+    rdr = app.App(config)
 
     now = datetime.now()
     logfile = "log/smartapi_{0}_{1}.log".format(now.month, now.year)
@@ -22,16 +19,16 @@ def init():
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
 
-    app.logger.addHandler(file_handler)
-    app.logger.setLevel(logging.INFO)
+    rdr.logger.addHandler(file_handler)
+    rdr.logger.setLevel(logging.INFO)
 
-    app.logger.debug("DEBUG in main.init")
+    rdr.logger.debug("DEBUG in main.init")
 
     if config['default']['use_cache']:
-        c = SimpleCache()
-        app.set_cache(c)
+        c = app.SimpleCache()
+        rdr.set_cache(c)
 
-    app.wait()
+    rdr.wait()
 
 def destroy():
     """ ending the program gracefully """

@@ -1,13 +1,11 @@
 import logging
 import time
 
-from components.keypad import Keypad
-from components.led import Led
-from components.rfid import Rfid
 from pad4pi import rpi_gpio
-from request.req import ApiRequest
 
-from app.cache import Cache
+from app.components import *
+from app.cache.cache import *
+from app.request.req import ApiRequest
 
 
 class App():

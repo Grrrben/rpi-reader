@@ -1,4 +1,4 @@
-from app.request import ApiRequest
+from app import ApiRequest
 
 class Keypad:
 
