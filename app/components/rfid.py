@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 from pirc522 import RFID
 
-from app.request import ApiRequest
+from app import ApiRequest
 
 
 class Rfid:
