@@ -1,5 +1,3 @@
-from app import ApiRequest
-
 class Keypad:
 
     BTN_DASH = "#"  # enter
@@ -35,7 +33,7 @@ class Keypad:
         """
         self.sequence = []
 
-    def set_api(self, api: ApiRequest):
+    def set_api(self, api):
         self.api = api
 
     def register_positive_handler(self, handler):

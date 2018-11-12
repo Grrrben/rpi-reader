@@ -1,8 +1,6 @@
 import RPi.GPIO as GPIO
 from pirc522 import RFID
 
-from app import ApiRequest
-
 
 class Rfid:
     def __init__(self, logger):
@@ -13,7 +11,7 @@ class Rfid:
         self._positive_handlers = []
         self._negative_handlers = []
 
-    def set_api(self, api: ApiRequest):
+    def set_api(self, api):
         self.api = api
 
     def register_positive_handler(self, handler):
