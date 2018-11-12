@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 from pirc522 import RFID
+from urllib.error import HTTPError
 
 
 class Rfid:
@@ -59,16 +60,21 @@ class Rfid:
                     hex_uid.reverse()
 
                     chip_number = hex_uid[0] << 24 | hex_uid[1] << 16 | hex_uid[2] << 8 | hex_uid[3]
-                    success = self.api.get_authorized_access_request(chip_number)
+                    try:
+                        success = self.api.get_authorized_access_request(chip_number)
 
-                    if success:
-                        for handler in self._positive_handlers:
-                            handler()
-                    else:
-                        for handler in self._negative_handlers:
-                            handler()
+                        if success:
+                            for handler in self._positive_handlers:
+                                handler()
+                        else:
+                            for handler in self._negative_handlers:
+                                handler()
 
-                    print("Access {} for card with chip_number {}".format(success, chip_number))
+                        print("Access {} for card with chip_number {}".format(success, chip_number))
+                    except HTTPError as e:
+                        self.logger.error("HTTPError while trying to api.get_authorized_access_request; {}".format(e))
+                    except Exception as e:
+                        self.logger.error("Awkward Exception; {}".format(e))
 
                     # Select Tag is required before Auth
                     # if not self.rdr.select_tag(uid):
