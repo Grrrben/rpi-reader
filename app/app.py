@@ -33,6 +33,8 @@ class App():
         led = Led()
         led.blink_blue()
 
+        relay = Relay(6)
+
         if self.reader_type == "KEYPAD":
 
             factory = rpi_gpio.KeypadFactory()
@@ -68,6 +70,7 @@ class App():
             rfid.set_api(self.api)
 
             rfid.register_positive_handler(led.blink_green)
+            rfid.register_positive_handler(relay.switch)
             rfid.register_negative_handler(led.blink_red)
 
             rfid.wait()
