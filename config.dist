@@ -13,6 +13,6 @@ endpoint_token = /path/to/obtain/jwt/auth/token
 # endpoint to grand or deny access
 # please be aware that a RFID reader has a different endpoint than an keypad/pin
 # use device_id and identifier as named vars, as these are used in the string.format() call.
-endpoint_access = /path/to/access/api?slxDeviceId={device_id}&pin|tag={identifier}
+endpoint_access = /path/to/access/api?deviceId={device_id}&pin|chipNumber={identifier}
 
 use_cache = 0
